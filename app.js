@@ -1,5 +1,5 @@
 const inquirer = require("inquirer");
-const fs = require("fs");
+const { writeFile, copyFile } = require("./utils/generate-site.js");
 const generatePage = require("./src/page-template.js");
 
 const promptUser = () => {
@@ -133,21 +133,15 @@ promptUser()
     return generatePage(portfolioData);
   })
   .then((pageHTML) => {
-    return fs.writeFile("./index.html", pageHTML, (err) => {
-      if (err) throw new Error(err);
-
-      console.log(
-        "Page complete! Check out index.html in this directory to see it!"
-      );
-    });
-    //   .then((writeFileResponse) => {
-    //     console.log(writeFileResponse);
-    //     return fs.copyFile();
-    //   })
-    //   .then((copyFileResponse) => {
-    //     console.log(copyFileResponse);
-    //   })
-    // .catch((err) => {
-    //   console.log(err);
-    // })
+    return writeFile(pageHTML);
+  })
+  .then((writeFileResponse) => {
+    console.log(writeFileResponse);
+    return copyFile();
+  })
+  .then((copyFileResponse) => {
+    console.log(copyFileResponse);
+  })
+  .catch((err) => {
+    console.log(err);
   });
